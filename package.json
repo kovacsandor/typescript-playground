@@ -1,0 +1,30 @@
+{
+  "name": "typescript-playground",
+  "version": "1.0.0",
+  "description": "A repository for learning purposes",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "debug": "tsc --sourceMap",
+    "start": "node ./dist",
+    "watch": "concurrently --kill-others \"npm:watch-*\"",
+    "watch-node": "nodemon ./dist",
+    "watch-ts": "tsc --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kovacsandor/typescript-playground.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kovacsandor/typescript-playground/issues"
+  },
+  "homepage": "https://github.com/kovacsandor/typescript-playground#readme",
+  "devDependencies": {
+    "concurrently": "^4.1.0",
+    "nodemon": "^1.18.9",
+    "typescript": "^3.2.4"
+  }
+}
