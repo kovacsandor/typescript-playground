@@ -1,0 +1,8 @@
+export enum DefaultValue {
+    AEROPLANE_BOARDING_TIME = 2,
+    AEROPLANE_CAPACITY = 480,
+    AEROPLANE_SPEED_MAX = 930,
+    CAR_CAPACITY = 4,
+    CAR_SPEED = 0,
+    CAR_SPEED_MAX = 130,
+}

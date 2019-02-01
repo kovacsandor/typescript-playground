@@ -1,0 +1,82 @@
+{
+    "rules": {
+        "array-type": [
+            true,
+            "array"
+        ],
+        "no-any": true,
+        "no-unused-expression": [
+            true,
+            "allow-fast-null-checks"
+        ],
+        "arrow-parens": [
+            true,
+            "ban-single-arg-parens"
+        ],
+        "eofline": true,
+        "indent": [
+            true,
+            "spaces",
+            4
+        ],
+        "interface-name": [
+            true,
+            "always-prefix"
+        ],
+        "jsdoc-format": true,
+        "max-line-length": [
+            true,
+            100
+        ],
+        "no-consecutive-blank-lines": true,
+        "no-console": false,
+        "no-duplicate-imports": true,
+        "no-duplicate-switch-case": true,
+        "no-empty-interface": false,
+        "no-var-keyword": true,
+        "object-literal-sort-keys": [
+            true
+        ],
+        "one-line": [
+            true,
+            "check-open-brace",
+            "check-whitespace"
+        ],
+        "ordered-imports": [
+            true,
+            {
+                "import-sources-order": "lowercase-last",
+                "named-imports-order": "lowercase-first"
+            }
+        ],
+        "prefer-object-spread": true,
+        "quotemark": [
+            true,
+            "single",
+            "avoid-escape"
+        ],
+        "radix": true,
+        "semicolon": [
+            true,
+            "always"
+        ],
+        "switch-default": true,
+        "trailing-comma": [
+            true,
+            {
+                "multiline": "always",
+                "singleline": "never"
+            }
+        ],
+        "typedef": [
+            true,
+            "arrow-call-signature",
+            "arrow-parameter",
+            "call-signature",
+            "member-variable-declaration",
+            "parameter",
+            "property-declaration",
+            "variable-declaration"
+        ]
+    }
+}
