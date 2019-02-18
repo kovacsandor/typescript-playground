@@ -45,40 +45,30 @@ describe('Aeroplane', () => {
         expect(aeroplane).not.toEqual(new Aeroplane(Destination.BUD));
     });
 
-    test(makeGearAssertionTravelTime(Destination.BTS, Destination.BUD), () => {
-        const a: Aeroplane = new Aeroplane(Destination.BTS).setDestination(Destination.BUD);
-        expect(a.getTravelTime()).toBe(getTravelTimeAeroplane(a.boardingTime, a.getFlightTime()));
-    });
+    makeTravelTimeAssertion(Destination.BTS, Destination.BUD);
 
-    test(makeGearAssertionTravelTime(Destination.BUD, Destination.BTS), () => {
-        const a: Aeroplane = new Aeroplane(Destination.BUD).setDestination(Destination.BTS);
-        expect(a.getTravelTime()).toBe(getTravelTimeAeroplane(a.boardingTime, a.getFlightTime()));
-    });
+    makeTravelTimeAssertion(Destination.BUD, Destination.BTS);
 
-    test(makeGearAssertionTravelTime(Destination.BTS, Destination.PRG), () => {
-        const a: Aeroplane = new Aeroplane(Destination.BTS).setDestination(Destination.PRG);
-        expect(a.getTravelTime()).toBe(getTravelTimeAeroplane(a.boardingTime, a.getFlightTime()));
-    });
+    makeTravelTimeAssertion(Destination.BTS, Destination.PRG);
 
-    test(makeGearAssertionTravelTime(Destination.PRG, Destination.BTS), () => {
-        const a: Aeroplane = new Aeroplane(Destination.PRG).setDestination(Destination.BTS);
-        expect(a.getTravelTime()).toBe(getTravelTimeAeroplane(a.boardingTime, a.getFlightTime()));
-    });
+    makeTravelTimeAssertion(Destination.PRG, Destination.BTS);
 
-    test(makeGearAssertionTravelTime(Destination.BUD, Destination.PRG), () => {
-        const a: Aeroplane = new Aeroplane(Destination.BUD).setDestination(Destination.PRG);
-        expect(a.getTravelTime()).toBe(getTravelTimeAeroplane(a.boardingTime, a.getFlightTime()));
-    });
-
-    test(makeGearAssertionTravelTime(Destination.PRG, Destination.BUD), () => {
-        const a: Aeroplane = new Aeroplane(Destination.PRG).setDestination(Destination.BUD);
-        expect(a.getTravelTime()).toBe(getTravelTimeAeroplane(a.boardingTime, a.getFlightTime()));
-    });
+    makeTravelTimeAssertion(Destination.BUD, Destination.PRG);
+    
+    makeTravelTimeAssertion(Destination.PRG, Destination.BUD);
 });
 
-function makeGearAssertionTravelTime(start: Destination, destination: Destination): string {
+function makeTravelTimeAssertion(start: Destination, destination: Destination): void {
     const aeroplane: Aeroplane = new Aeroplane(start).setDestination(destination);
-    return `should a have a travel time of ${
-        getTravelTimeAeroplane(aeroplane.boardingTime, aeroplane.getFlightTime())
-    } from ${Destination[start]} to ${Destination[destination]}`;
+    const boardingTime: number = aeroplane.boardingTime;
+    const flightTime: number = aeroplane.getFlightTime();
+    const expectedTravelTime: number = getTravelTimeAeroplane(boardingTime, flightTime);
+    const from: string = Destination[start];
+    const to: string = Destination[destination];
+    test(`should a have a travel time of ${expectedTravelTime} from ${from} to ${to}`, () => {
+        const travelTime: number = aeroplane.getTravelTime();
+        expect(isNaN(travelTime)).toBe(false);
+        expect(travelTime).toBe(expectedTravelTime);
+    });
 }
+

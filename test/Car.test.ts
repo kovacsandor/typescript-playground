@@ -21,7 +21,7 @@ describe('Car', () => {
     test(`should have a kind of ${VehicleKind[VehicleKind.CAR]}`, () => {
         expect(car.kind).toBe(VehicleKind.CAR);
     });
-
+    
     test(`should have a max speed of ${DefaultValue.CAR_SPEED_MAX}`, () => {
         expect(car.speedMax).toBe(DefaultValue.CAR_SPEED_MAX);
     });
@@ -30,32 +30,36 @@ describe('Car', () => {
         expect(car.getSpeed()).toBe(DefaultValue.CAR_SPEED);
     });
 
-    test(makeGearAssertionName(CarGear.DRIVE_1), () => {
-        expect(car.gearUp().getSpeed()).toBe(getCarSpeed(CarGear.DRIVE_1));
+    test(makeSpeedAssertionName(CarGear.DRIVE_1), () => {
+        makeSpeedAssertionExpectation(car, CarGear.DRIVE_1);
+    });
+    
+    test(makeSpeedAssertionName(CarGear.DRIVE_2), () => {
+        makeSpeedAssertionExpectation(car, CarGear.DRIVE_2);
+    });
+    
+    test(makeSpeedAssertionName(CarGear.DRIVE_3), () => {
+        makeSpeedAssertionExpectation(car, CarGear.DRIVE_3);
+    });
+    
+    test(makeSpeedAssertionName(CarGear.DRIVE_4), () => {
+        makeSpeedAssertionExpectation(car, CarGear.DRIVE_4);
+    });
+    
+    test(makeSpeedAssertionName(CarGear.DRIVE_5), () => {
+        makeSpeedAssertionExpectation(car, CarGear.DRIVE_5);
     });
 
-    test(makeGearAssertionName(CarGear.DRIVE_2), () => {
-        expect(car.gearUp(2).getSpeed()).toBe(getCarSpeed(CarGear.DRIVE_2));
+    test(makeSpeedAssertionName(CarGear.NEUTRAL), () => {
+        const s: number = car.gearUp(2).gearDown(2).getSpeed();
+        expect(isNaN(s)).toBe(false);
+        expect(s).toBe(getCarSpeed(CarGear.NEUTRAL));
     });
-
-    test(makeGearAssertionName(CarGear.DRIVE_3), () => {
-        expect(car.gearUp(3).getSpeed()).toBe(getCarSpeed(CarGear.DRIVE_3));
-    });
-
-    test(makeGearAssertionName(CarGear.DRIVE_4), () => {
-        expect(car.gearUp(4).getSpeed()).toBe(getCarSpeed(CarGear.DRIVE_4));
-    });
-
-    test(makeGearAssertionName(CarGear.DRIVE_5), () => {
-        expect(car.gearUp(5).getSpeed()).toBe(getCarSpeed(CarGear.DRIVE_5));
-    });
-
-    test(makeGearAssertionName(CarGear.NEUTRAL), () => {
-        expect(car.gearUp(2).gearDown(2).getSpeed()).toBe(getCarSpeed(CarGear.NEUTRAL));
-    });
-
-    test(makeGearAssertionName(CarGear.REVERSE), () => {
-        expect(car.gearDown().getSpeed()).toBe(getCarSpeed(CarGear.REVERSE));
+    
+    test(makeSpeedAssertionName(CarGear.REVERSE), () => {
+        const s: number = car.gearDown().getSpeed();
+        expect(isNaN(s)).toBe(false);
+        expect(s).toBe(getCarSpeed(CarGear.REVERSE));
     });
 
     test(`should not be able to shift gear to ${CarGear.REVERSE - 1} / a`, () => {
@@ -82,29 +86,38 @@ describe('Car', () => {
         expect(car.gearUp(2)).not.toEqual(new Car(Distance.BRATISLAVA_BUDAPEST).gearUp());
     });
 
-    test(makeGearAssertionTravelTime(Distance.BRATISLAVA_BUDAPEST, speed), () => {
-        expect(car.gearUp(5).getTravelTime())
-            .toBe(getTravelTimeCar(Distance.BRATISLAVA_BUDAPEST, speed));
+    test(makeTravelTimeAssertionName(Distance.BRATISLAVA_BUDAPEST, speed), () => {
+        makeTravelTimeAssertionExpectation(car, Distance.BRATISLAVA_BUDAPEST, speed);
     });
 
-    test(makeGearAssertionTravelTime(Distance.BRATISLAVA_PRAGUE, speed), () => {
-        car = new Car(Distance.BRATISLAVA_PRAGUE);
-        expect(car.gearUp(5).getTravelTime())
-            .toBe(getTravelTimeCar(Distance.BRATISLAVA_PRAGUE, speed));
+    test(makeTravelTimeAssertionName(Distance.BRATISLAVA_PRAGUE, speed), () => {
+        makeTravelTimeAssertionExpectation(new Car(Distance.BRATISLAVA_PRAGUE),
+            Distance.BRATISLAVA_PRAGUE, speed);
     });
 
-    test(makeGearAssertionTravelTime(Distance.BUDAPEST_PRAGUE, speed), () => {
-        car = new Car(Distance.BUDAPEST_PRAGUE);
-        expect(car.gearUp(5).getTravelTime())
-            .toBe(getTravelTimeCar(Distance.BUDAPEST_PRAGUE, speed));
+    test(makeTravelTimeAssertionName(Distance.BUDAPEST_PRAGUE, speed), () => {
+        makeTravelTimeAssertionExpectation(new Car(Distance.BUDAPEST_PRAGUE),
+            Distance.BUDAPEST_PRAGUE, speed);
     });
 });
 
-function makeGearAssertionName(gear: CarGear): string {
+function makeSpeedAssertionExpectation(car: Car, gear: CarGear): void {
+    const speed: number = car.gearUp(gear).getSpeed();
+    expect(isNaN(speed)).toBe(false);
+    expect(speed).toBe(getCarSpeed(gear));
+}
+
+function makeSpeedAssertionName(gear: CarGear): string {
     return `should have a speed of ${getCarSpeed(gear)} when gear is ${CarGear[gear]}`;
 }
 
-function makeGearAssertionTravelTime(distance: Distance, speed: number): string {
+function makeTravelTimeAssertionExpectation(car: Car, distance: Distance, speed: number): void {
+    const travelTime: number = car.gearUp(5).getTravelTime();
+    expect(isNaN(travelTime)).toBe(false);
+    expect(travelTime).toBe(getTravelTimeCar(distance, speed));
+}
+
+function makeTravelTimeAssertionName(distance: Distance, speed: number): string {
     return `should a have a travel time of ${
         getTravelTimeCar(distance, speed)
     } in a distance of ${Distance[distance]}`;
