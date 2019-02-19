@@ -1,4 +1,4 @@
-export enum Destination {
+export enum Location {
     BTS,
     BUD,
     PRG,

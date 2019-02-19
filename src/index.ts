@@ -3,32 +3,34 @@ import { Car } from './Car';
 import { Vehicle } from './Vehicle';
 import { CarGear } from './constant/CarGear';
 import { DefaultValue } from './constant/DefaultValue';
-import { Destination } from './constant/Destination';
 import { Distance } from './constant/Distance';
+import { Location } from './constant/Location';
 import { VehicleKind } from './constant/VehicleKind';
 
 export function getCarSpeed(gear: CarGear): number {
     return DefaultValue.CAR_SPEED_MAX / CarGear.DRIVE_5 * gear;
 }
 
-export function getFlightTime(aeroplane: Aeroplane, destination: Destination): number {
+export function getFlightTime(aeroplane: Aeroplane): number {
+    const destination: Location = aeroplane.getDestination();
+    const location: Location = aeroplane.getLocation();
     switch (true) {
-        case aeroplane.getDestination() === Destination.BUD && destination === Destination.BTS :
-        case aeroplane.getDestination() === Destination.BTS && destination === Destination.BUD :
-            return this.flightTime = 0.5;
-        case aeroplane.getDestination() === Destination.BUD && destination === Destination.PRG :
-        case aeroplane.getDestination() === Destination.PRG && destination === Destination.BUD :
-            return this.flightTime = 1.5;
-        case aeroplane.getDestination() === Destination.BTS && destination === Destination.PRG :
-        case aeroplane.getDestination() === Destination.PRG && destination === Destination.BTS :
-            return this.flightTime = 1;
+        case location === Location.BUD && destination === Location.BTS :
+        case location === Location.BTS && destination === Location.BUD :
+            return 0.5;
+        case location === Location.BUD && destination === Location.PRG :
+        case location === Location.PRG && destination === Location.BUD :
+            return 1.5;
+        case location === Location.BTS && destination === Location.PRG :
+        case location === Location.PRG && destination === Location.BTS :
+            return 1;
         default:
         throw new Error('Invalid case');
     }
 }
 
-export function getTravelTimeAeroplane(boardingTime: number, flightTime: number): number {
-    return boardingTime + flightTime;
+export function getTravelTimeAeroplane(aeroplane: Aeroplane): number {
+    return aeroplane.boardingTime + aeroplane.getFlightTime();
 }
 
 export function getTravelTimeCar(distance: Distance, speed: number): number {
@@ -45,7 +47,7 @@ function getTravelTimeVehicle(vehicle: Vehicle): number {
 
 function start(): void {
 
-    const aeroplane: Aeroplane = new Aeroplane(Destination.BTS).setDestination(Destination.BUD);
+    const aeroplane: Aeroplane = new Aeroplane(Location.BTS).setDestination(Location.BUD);
     const car: Car = new Car(Distance.BRATISLAVA_BUDAPEST);
     
     console.log('Travel time from Bratislava to Budapest by aeroplane', 

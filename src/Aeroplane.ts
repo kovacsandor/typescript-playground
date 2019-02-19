@@ -1,15 +1,16 @@
 import { getFlightTime, getTravelTimeAeroplane } from '.';
 import { Vehicle } from './Vehicle';
 import { DefaultValue } from './constant/DefaultValue';
-import { Destination } from './constant/Destination';
+import { Location } from './constant/Location';
 import { VehicleKind } from './constant/VehicleKind';
 
 export class Aeroplane extends Vehicle {
 
     public readonly boardingTime: number = DefaultValue.AEROPLANE_BOARDING_TIME;
+    private destination: Location;
     private flightTime: number;
 
-    public constructor(private destination: Destination) {
+    public constructor(private location: Location) {
         super({
             capacity: DefaultValue.AEROPLANE_CAPACITY,
             kind: VehicleKind.AEROPLANE,
@@ -17,8 +18,12 @@ export class Aeroplane extends Vehicle {
         });
     }
 
-    public getDestination(): Destination {
+    public getDestination(): Location {
         return this.destination;
+    }
+
+    public getLocation(): Location {
+        return this.location;
     }
 
     public getFlightTime(): number {
@@ -26,16 +31,21 @@ export class Aeroplane extends Vehicle {
     }
 
     public getTravelTime(): number {
-        return getTravelTimeAeroplane(this.boardingTime, this.flightTime);
+        return getTravelTimeAeroplane(this);
+    }
+
+    public land(): void {
+        this.location = this.getDestination();
+        this.setDestination(null);
     }
     
-    public setDestination(destination: Destination): this {
-        this.setFlightTime(destination);
+    public setDestination(destination: Location): this {
         this.destination = destination;
+        this.setFlightTime();
         return this;
     }
     
-    private setFlightTime(destination: Destination): void {
-        this.flightTime = getFlightTime(this, destination);
+    private setFlightTime(): void {
+        this.flightTime = this.getDestination() ? getFlightTime(this) : null;
     }
 }
